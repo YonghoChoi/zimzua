@@ -58,27 +58,27 @@ echo * Output Dir   : %output%
 echo * Build App    : %app%
 echo * Command      : %command%
 
+@echo * delete output directory
+rmdir /S /Q %output%
+cd %src%
+
 IF /I "%command%"=="build" (
-    @echo * delete output directory
-    rmdir /S /Q %output%
-    cd %src%
+    IF /I "%debugMode%"=="true" (
+        @echo * build debug binary
+        set GOARCH=amd64
+        set GOOS=linux
+        set GOHOSTOS=windows
+
+        go build -gcflags "all=-N -l" -o %baseDir%\%output%\%app%-debug
+        goto finishbuild
+    )
 
     IF /I "%platform%"=="linux" (
-        IF /I "%debugMode%"=="true" (
-            @echo * build debug binary
-            set GOARCH=amd64
-            set GOOS=linux
-            set GOHOSTOS=windows
-
-            go build -gcflags "all=-N -l" -o %baseDir%\%output%\%app%-debug
-            goto finishbuild
-        )
-
         @echo * build linux binaries
         set GOARCH=amd64
         set GOOS=linux
 
-        go build -o %baseDir%\%output%\%app%
+        go build -ldflags "-X zimzua/pkg/version.AppVersion=%version%" -o %baseDir%\%output%\%app%
         goto finishbuild
     )
 
@@ -87,13 +87,13 @@ IF /I "%command%"=="build" (
         set GOARCH=amd64
         set GOOS=windows
 
-        go build -o %baseDir%\%output%\%app%.exe
+        go build -ldflags "-X zimzua/pkg/version.AppVersion=%version%" -o %baseDir%\%output%\%app%.exe
         goto finishbuild
     )
-
     :finishbuild
-
-    @echo * build complete
+    cd %baseDir%
 )
+
+@echo * build complete
 
 EXIT /B 0
