@@ -70,7 +70,6 @@ func initRoute() error {
 		router.Use(apmgorilla.Middleware())
 	}
 
-	http.Handle("/api/", api)
 	goji.NotFound(NotFound)
 
 	return nil
