@@ -1,10 +1,11 @@
-package sql
+package db
 
 import (
 	"database/sql"
 	"log"
 	"fmt"
 	"sync"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type MySQLWrap struct {
@@ -21,13 +22,13 @@ func (s *MySQLWrap) getDB() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
 	return db
 }
 
 func (s *MySQLWrap) insert(query string) (int64, error) {
 	db := s.getDB()
+	defer db.Close()
 	res, err := db.Exec(query)
 	if err != nil {
 		return 0, err
@@ -38,6 +39,7 @@ func (s *MySQLWrap) insert(query string) (int64, error) {
 
 func (s *MySQLWrap) update(query string) (int64, error) {
 	db := s.getDB()
+	defer db.Close()
 	res, err := db.Exec(query)
 	if err != nil {
 		return 0, err
@@ -48,6 +50,7 @@ func (s *MySQLWrap) update(query string) (int64, error) {
 
 func (s *MySQLWrap) delete(query string) (int64, error) {
 	db := s.getDB()
+	defer db.Close()
 	res, err := db.Exec(query)
 	if err != nil {
 		return 0, err
@@ -94,4 +97,8 @@ func Delete(query string) (int64, error) {
 
 func SelectQuery(query string) (*sql.Rows, error) {
 	return GetInstnace().selectQuery(query)
+}
+
+func GetDB() *sql.DB {
+	return GetInstnace().getDB()
 }

@@ -6,7 +6,6 @@ import (
 	"os"
 	"go.elastic.co/apm/module/apmgorilla"
 	"github.com/gorilla/sessions"
-	"github.com/zenazn/goji/web"
 	"github.com/gorilla/mux"
 	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/bind"
@@ -61,8 +60,8 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 }
 
 func initRoute() error {
-	api := web.New()
-	api.Post("/test", test)
+	goji.Post("/regUser", regUser)
+	goji.Post("/loginUser", loginUser)
 
 	// APM 사용
 	if len(os.Getenv("ELASTIC_APM_SERVER_URL")) > 0 {

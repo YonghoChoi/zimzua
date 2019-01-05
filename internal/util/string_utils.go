@@ -7,9 +7,9 @@ import (
 	"io/ioutil"
 	"strings"
 	"strconv"
-	"gitlab.nexon.com/irene/nxkit/nsom/internal/common/log"
 	"regexp"
 	"unicode"
+	"log"
 )
 
 type SortString []string
@@ -77,7 +77,7 @@ func RemoveSlash(origin string) string {
 func AtoiWithoutError(origin string) int {
 	num, err := strconv.Atoi(origin)
 	if err != nil {
-		log.Warn(log.System, "can not convert string to integer. value : %s", origin)
+		log.Printf("can not convert string to integer. value : %s\n", origin)
 	}
 
 	return num

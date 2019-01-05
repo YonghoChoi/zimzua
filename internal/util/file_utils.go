@@ -9,7 +9,6 @@ import (
 	"compress/gzip"
 	"strings"
 	"github.com/shirou/gopsutil/host"
-	"gitlab.nexon.com/irene/nxkit/nsom/internal/common/etc"
 	"regexp"
 )
 
@@ -130,18 +129,6 @@ func HomeUser() string {
 	}
 
 	return ""
-}
-
-func GetFileType(path string) string {
-	ext := filepath.Ext(path)
-	ext = strings.Replace(ext, ".", "", -1)
-	if Include(etc.BianrayFileExts, ext) {
-		return etc.FILE_TYPE_BINARY
-	} else if Include(etc.TextFileExts, ext) {
-		return etc.FILE_TYPE_TEXT
-	} else {
-		return etc.FILE_TYPE_NOT_SUPPORTED
-	}
 }
 
 func GetFileContent(path string, size int) (string, error) {
