@@ -7,7 +7,6 @@ import (
 
 type Res struct {
 	Code        string                 `json:"code"`
-	State       string                 `json:"state"`
 	Message     string                 `json:"message"`
 	MessageType string                 `json:"messageType"`
 	Data        map[string]interface{} `json:"data"`
@@ -44,7 +43,7 @@ func (o *Res) ToJson() string {
 }
 
 func (o *Res) ToString() string {
-	return fmt.Sprintf("code : %s, state : %s, message type : %s, message : %s", o.Code, o.State, o.MessageType, o.Message)
+	return fmt.Sprintf("code : %s, message type : %s, message : %s", o.Code, o.MessageType, o.Message)
 }
 
 func Response(code string) *Res {

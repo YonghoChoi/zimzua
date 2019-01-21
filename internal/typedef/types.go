@@ -3,6 +3,7 @@ package typedef
 import (
 	"fmt"
 	"zimzua/pkg/db"
+	"github.com/pkg/errors"
 )
 
 type AccountInfo struct {
@@ -66,11 +67,11 @@ func (a AccountInfo) ValidLogin(password string, token string) error {
 }
 
 func (a *AccountInfo) Insert() error {
-	query := fmt.Sprintf("insert into account(name,phone,email,password,loginType,token) values('%s','%s','%s','%s','%s','%s'",
+	query := fmt.Sprintf("insert into account(name,phone,email,password,loginType,token) values('%s','%s','%s','%s','%s','%s')",
 		a.Name, a.Phone, a.Email, a.Password, a.LoginType, a.Token)
 
 	if id, err := db.Insert(query); err != nil {
-		return err
+		return errors.Wrap(err, "query : "+query)
 	} else {
 		a.Id = id
 	}
@@ -82,7 +83,7 @@ func (a *AccountInfo) Select(email string) error {
 	query := fmt.Sprintf("select id,name,phone,email,password,loginType,token from account where email='%s'",
 		email)
 
-	return db.GetDB().QueryRow(query).Scan(
+	if err := db.GetDB().QueryRow(query).Scan(
 		&a.Id,
 		&a.Name,
 		&a.Phone,
@@ -90,5 +91,9 @@ func (a *AccountInfo) Select(email string) error {
 		&a.Password,
 		&a.LoginType,
 		&a.Token,
-	)
+	); err != nil {
+		return errors.Wrap(err, "query : "+query)
+	}
+
+	return nil
 }
