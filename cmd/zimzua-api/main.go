@@ -62,6 +62,7 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 func initRoute() error {
 	goji.Post("/regUser", regUser)
 	goji.Post("/loginUser", loginUser)
+	goji.Get("/getStorageList", getStorageList)
 
 	// APM 사용
 	if len(os.Getenv("ELASTIC_APM_SERVER_URL")) > 0 {

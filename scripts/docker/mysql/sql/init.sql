@@ -18,13 +18,12 @@ COMMENT = '사용자 계정 테이블';
 
 CREATE TABLE storage (
   id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  name varchar(24) NOT NULL,
+  name varchar(256) NOT NULL,
   phone varchar(24) NOT NULL default '010-0000-0000',
   address varchar(256) NOT NULL,
   location point NOT NULL,
   created datetime default now(),
   updated datetime default now(),
-  UNIQUE INDEX ux_name (name),
   PRIMARY KEY (id)
 )ENGINE = InnoDB
 COMMENT = '업체 테이블';
@@ -40,7 +39,7 @@ FLUSH PRIVILEGES;
 DELIMITER //
 CREATE PROCEDURE GetStorageList(loc POINT)
 BEGIN
-  SELECT *, ST_DISTANCE_SPHERE(loc, location) AS dist
+  SELECT name, phone, address, location, created, updated, ST_DISTANCE_SPHERE(loc, location) AS dist
   FROM zimzua.storage
   ORDER BY dist;
 END

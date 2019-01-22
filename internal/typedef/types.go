@@ -97,3 +97,23 @@ func (a *AccountInfo) Select(email string) error {
 
 	return nil
 }
+
+type Point struct {
+	Lon float64
+	Lat float64
+}
+
+type Storage struct {
+	Id       string
+	Name     string
+	Phone    string
+	Address  string
+	Location Point
+	Created  string
+	Updated  string
+	Dist     string
+}
+
+func (s Storage) Print() {
+	fmt.Printf("%s\t%s\t%s\t%s\t%v\t%s\t%s\t%s\n", s.Id, s.Name, s.Phone, s.Address, s.Location, s.Created, s.Updated, s.Dist)
+}

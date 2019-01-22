@@ -93,6 +93,7 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 	res.Message = "로그인 되었습니다."
 }
 
+// Sample Data : 디캠프 좌표 (lon = 127.043695, lat = 37.5084632)
 func getStorageList(w http.ResponseWriter, r *http.Request) {
 	res := packet.Res{Code: code.ResultOK}
 	defer func() {
@@ -118,7 +119,7 @@ func getStorageList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	query := fmt.Sprintf(`SELECT *, ST_DISTANCE_SPHERE(POINT(%f, %f), location) AS dist FROM storage`, lon, lat)
+	query := fmt.Sprintf(`call GetStorageList(POINT(%f,%f))`, lon, lat)
 	rows, err := db.SelectQuery(query)
 	if err != nil {
 		res.Code = code.ResultInternalServerError
@@ -126,4 +127,27 @@ func getStorageList(w http.ResponseWriter, r *http.Request) {
 		log.Printf("fail query. query : %s, err : %s\n", query, err.Error())
 		return
 	}
+	defer rows.Close()
+
+	var storageList []*typedef.Storage
+	for rows.Next() {
+		storage := new(typedef.Storage)
+		err := rows.Scan(
+			&storage.Id,
+			&storage.Name,
+			&storage.Phone,
+			&storage.Address,
+			&storage.Location,
+			&storage.Created,
+			&storage.Updated,
+			&storage.Dist)
+
+		if err != nil {
+			log.Println(err)
+		}
+		storage.Print()
+		storageList = append(storageList, storage)
+	}
+
+	res.AddData("storageList", storageList)
 }
