@@ -17,7 +17,7 @@ type MySQLWrap struct {
 }
 
 func (s *MySQLWrap) getDB() *sql.DB {
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", s.User, s.Password, s.Ip, s.Port, s.DBName)
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4", s.User, s.Password, s.Ip, s.Port, s.DBName)
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		log.Fatal(err)

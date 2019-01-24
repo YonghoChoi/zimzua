@@ -94,6 +94,8 @@ func loginUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // Sample Data : 디캠프 좌표 (lon = 127.043695, lat = 37.5084632)
+// Sample Data : 종로3가 좌표 (lon = 126.9895646721, lat = 37.5702449756)
+// call GetStorageList(POINT(126.9895646721,37.5702449756))
 func getStorageList(w http.ResponseWriter, r *http.Request) {
 	res := packet.Res{Code: code.ResultOK}
 	defer func() {
@@ -131,20 +133,28 @@ func getStorageList(w http.ResponseWriter, r *http.Request) {
 
 	var storageList []*typedef.Storage
 	for rows.Next() {
+		var location, lon, lat string
 		storage := new(typedef.Storage)
 		err := rows.Scan(
 			&storage.Id,
 			&storage.Name,
 			&storage.Phone,
 			&storage.Address,
-			&storage.Location,
+			&location,
+			&lon,
+			&lat,
 			&storage.Created,
 			&storage.Updated,
 			&storage.Dist)
-
+		storage.Location.Lon, err = strconv.ParseFloat(lon, 64)
 		if err != nil {
 			log.Println(err)
 		}
+		storage.Location.Lat, err = strconv.ParseFloat(lat, 64)
+		if err != nil {
+			log.Println(err)
+		}
+
 		storage.Print()
 		storageList = append(storageList, storage)
 	}

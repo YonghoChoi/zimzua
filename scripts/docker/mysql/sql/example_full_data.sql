@@ -11049,10 +11049,12 @@ SELECT JSON_EXTRACT(@src, CONCAT('$.DATA[', n - 1, ']')) AS DATA
 FROM tally T
 WHERE T.n <= JSON_LENGTH(JSON_EXTRACT(@src, '$.DATA'));
 
-INSERT storage (name, address, location)
+INSERT storage (name, address, location, lon, lat)
 SELECT DATA ->> '$.stop_nm'
     , DATA ->> '$.stop_nm'
     , POINT(DATA ->> '$.xcode', DATA ->> '$.ycode')
+    , CAST((DATA ->> '$.xcode') as DECIMAL(20,10)) as lon
+    , CAST((DATA ->> '$.ycode') as DECIMAL(20,10)) as lat
 FROM t1;
 
 DROP TABLE t1;

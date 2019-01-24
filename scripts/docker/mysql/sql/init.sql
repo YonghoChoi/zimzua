@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS zimzua;
-CREATE DATABASE zimzua DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;;
+CREATE DATABASE zimzua DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;;
 USE zimzua;
 CREATE TABLE account (
   id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -22,6 +22,8 @@ CREATE TABLE storage (
   phone varchar(24) NOT NULL default '010-0000-0000',
   address varchar(256) NOT NULL,
   location point NOT NULL,
+  lon DOUBLE NOT NULL,
+  lat DOUBLE NOT NULL,
   created datetime default now(),
   updated datetime default now(),
   PRIMARY KEY (id)
@@ -30,18 +32,16 @@ COMMENT = '업체 테이블';
 
 CREATE SPATIAL INDEX `spaidx-storage-location` ON storage (location);
 
-GRANT ALL PRIVILEGES ON zimzua.* TO 'zimzua'@'%'
-    IDENTIFIED BY 'zimzua'
-    WITH GRANT OPTION;
-FLUSH PRIVILEGES;
+CREATE USER 'zimzua'@'%' IDENTIFIED BY 'zimzua';
+GRANT ALL ON zimzua.* TO 'zimzua'@'%';
 
 -- 성능 개선 (참고 https://purumae.tistory.com/198)
 DELIMITER //
 CREATE PROCEDURE GetStorageList(loc POINT)
 BEGIN
-  SELECT name, phone, address, location, created, updated, ST_DISTANCE_SPHERE(loc, location) AS dist
+  SELECT id, name, phone, address, location, lon, lat, created, updated, ST_DISTANCE_SPHERE(loc, location) AS dist
   FROM zimzua.storage
-  ORDER BY dist;
+  ORDER BY dist limit 10;
 END
 //
 

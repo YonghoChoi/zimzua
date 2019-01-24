@@ -104,14 +104,14 @@ type Point struct {
 }
 
 type Storage struct {
-	Id       string
-	Name     string
-	Phone    string
-	Address  string
-	Location Point
-	Created  string
-	Updated  string
-	Dist     string
+	Id       string `json:"id"`
+	Name     string `json:"name"`
+	Phone    string `json:"phone"`
+	Address  string `json:"address"`
+	Location Point  `json:"location"`
+	Created  string `json:"created"`
+	Updated  string `json:"updated"`
+	Dist     string `json:"dist"`
 }
 
 func (s Storage) Print() {
