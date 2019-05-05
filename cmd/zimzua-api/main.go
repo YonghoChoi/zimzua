@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
+	"github.com/YonghoChoi/zimzua/pkg/version"
+	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
+	"github.com/zenazn/goji"
+	"go.elastic.co/apm/module/apmgorilla"
+	"log"
 	"net/http"
 	"os"
-	"go.elastic.co/apm/module/apmgorilla"
-	"github.com/gorilla/sessions"
-	"github.com/gorilla/mux"
-	"github.com/zenazn/goji"
-	"github.com/zenazn/goji/bind"
-	"zimzua/pkg/version"
-	"log"
 )
 
 var (
@@ -77,5 +76,5 @@ func initRoute() error {
 
 func startServe() {
 	log.Println("Running ZIM ZUA API...")
-	goji.ServeListener(bind.Socket(":80")) // reverse proxy를 사용하지 않는 경우 static 파일을 포함하여 80로 Listen
+	goji.Serve()
 }

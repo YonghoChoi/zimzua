@@ -2,7 +2,7 @@ package typedef
 
 import (
 	"fmt"
-	"zimzua/pkg/db"
+	"github.com/YonghoChoi/zimzua/pkg/db"
 	"github.com/pkg/errors"
 )
 

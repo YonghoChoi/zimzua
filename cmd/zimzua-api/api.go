@@ -1,14 +1,14 @@
 package main
 
 import (
-	"net/http"
-	"zimzua/internal/packet"
-	"zimzua/internal/code"
 	"fmt"
+	"github.com/YonghoChoi/zimzua/internal/code"
+	"github.com/YonghoChoi/zimzua/internal/packet"
+	"github.com/YonghoChoi/zimzua/internal/typedef"
+	"github.com/YonghoChoi/zimzua/pkg/db"
 	"log"
-	"zimzua/internal/typedef"
+	"net/http"
 	"strconv"
-	"zimzua/pkg/db"
 )
 
 func regUser(w http.ResponseWriter, r *http.Request) {

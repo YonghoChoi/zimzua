@@ -2,10 +2,10 @@ package db
 
 import (
 	"database/sql"
-	"log"
 	"fmt"
-	"sync"
 	_ "github.com/go-sql-driver/mysql"
+	"log"
+	"sync"
 )
 
 type MySQLWrap struct {
