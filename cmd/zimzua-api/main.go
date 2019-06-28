@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/YonghoChoi/zimzua/cmd/zimzua-api/auth"
+	"github.com/YonghoChoi/zimzua/cmd/zimzua-api/storage"
 	"github.com/YonghoChoi/zimzua/pkg/version"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
@@ -59,9 +61,9 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 }
 
 func initRoute() error {
-	goji.Post("/regUser", regUser)
-	goji.Post("/loginUser", loginUser)
-	goji.Get("/getStorageList", getStorageList)
+	goji.Post("/regUser", auth.RegisterUser)
+	goji.Post("/loginUser", auth.LoginUser)
+	goji.Get("/getStorageList", storage.GetStorageList)
 
 	// APM 사용
 	if len(os.Getenv("ELASTIC_APM_SERVER_URL")) > 0 {
