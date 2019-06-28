@@ -2,14 +2,14 @@ package util
 
 import (
 	"errors"
-	"golang.org/x/text/transform"
 	"golang.org/x/text/encoding/korean"
+	"golang.org/x/text/transform"
 	"io/ioutil"
-	"strings"
-	"strconv"
-	"regexp"
-	"unicode"
 	"log"
+	"regexp"
+	"strconv"
+	"strings"
+	"unicode"
 )
 
 type SortString []string

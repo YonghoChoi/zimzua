@@ -1,18 +1,18 @@
 version: '3.1'
 services:
   db:
-    build: mysql
+    build: ./mysql
 #    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci
     restart: always
     volumes:
-      - .\mysql\conf\mysqld.cnf:/etc/mysql/mysql.conf.d\mysqld.cnf
+      - .\mysql\conf\mysql.cnf:/etc/mysql/conf.d/mysql.cnf
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - 3306:3306
+      - 13306:3306
 
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8081:8080
+      - 18080:8080

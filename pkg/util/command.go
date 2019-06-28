@@ -1,11 +1,11 @@
 package util
 
 import (
-	"os/exec"
 	"bytes"
-	"time"
 	"fmt"
+	"os/exec"
 	"strings"
+	"time"
 )
 
 const timeout = 3600 * time.Second // 기본 1시간

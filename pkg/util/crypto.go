@@ -3,9 +3,9 @@ package util
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"io"
 	"crypto/rand"
 	"errors"
+	"io"
 )
 
 func encrypt(plaintext []byte, key []byte) ([]byte, error) {

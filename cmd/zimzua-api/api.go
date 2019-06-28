@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/YonghoChoi/zimzua/internal/code"
-	"github.com/YonghoChoi/zimzua/internal/packet"
-	"github.com/YonghoChoi/zimzua/internal/typedef"
+	"github.com/YonghoChoi/zimzua/pkg/code"
 	"github.com/YonghoChoi/zimzua/pkg/db"
+	"github.com/YonghoChoi/zimzua/pkg/packet"
+	"github.com/YonghoChoi/zimzua/pkg/typedef"
 	"log"
 	"net/http"
 	"strconv"

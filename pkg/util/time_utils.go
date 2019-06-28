@@ -1,9 +1,9 @@
 package util
 
 import (
-	"time"
-	"strings"
 	"fmt"
+	"strings"
+	"time"
 )
 
 func NowUtcMs() int64 {

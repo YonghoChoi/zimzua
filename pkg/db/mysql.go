@@ -74,9 +74,9 @@ func GetInstnace() *MySQLWrap {
 	once.Do(func() {
 		instance = new(MySQLWrap)
 		instance.Ip = "localhost"
-		instance.Port = 3306
-		instance.User = "zimzua"
-		instance.Password = "zimzua"
+		instance.Port = 13306
+		instance.User = "root"
+		instance.Password = "root"
 		instance.DBName = "zimzua"
 	})
 

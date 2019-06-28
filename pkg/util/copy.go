@@ -1,10 +1,10 @@
 package util
 
 import (
-	"os"
-	"path/filepath"
 	"io"
 	"io/ioutil"
+	"os"
+	"path/filepath"
 )
 
 func Copy(src, dest string) error {

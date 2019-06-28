@@ -1,8 +1,8 @@
 package util
 
 import (
-	"time"
 	"net/http"
+	"time"
 )
 
 // Unix epoch time

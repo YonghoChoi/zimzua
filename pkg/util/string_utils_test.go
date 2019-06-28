@@ -1,10 +1,10 @@
 package util
 
 import (
-	"strings"
 	"fmt"
-	"testing"
 	"os"
+	"strings"
+	"testing"
 )
 
 func TestRemoveFlow(t *testing.T) {

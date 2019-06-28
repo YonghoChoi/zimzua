@@ -1,15 +1,15 @@
 package util
 
 import (
-	"os"
-	"path/filepath"
-	"io"
-	"net/http"
 	"bytes"
 	"compress/gzip"
-	"strings"
 	"github.com/shirou/gopsutil/host"
+	"io"
+	"net/http"
+	"os"
+	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 func ExtractFileNameWithExt(path string) string {

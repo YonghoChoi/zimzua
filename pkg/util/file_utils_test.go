@@ -1,8 +1,8 @@
 package util
 
 import (
-	"testing"
 	"path/filepath"
+	"testing"
 )
 
 func TestFilePath(t *testing.T) {
