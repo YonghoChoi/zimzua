@@ -16,7 +16,7 @@ type MySQLWrap struct {
 	Password string
 }
 
-func (s *MySQLWrap) getDB() *sql.DB {
+func (s *MySQLWrap) GetDB() *sql.DB {
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4", s.User, s.Password, s.Ip, s.Port, s.DBName)
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
@@ -27,7 +27,7 @@ func (s *MySQLWrap) getDB() *sql.DB {
 }
 
 func (s *MySQLWrap) insert(query string) (int64, error) {
-	db := s.getDB()
+	db := s.GetDB()
 	defer db.Close()
 	res, err := db.Exec(query)
 	if err != nil {
@@ -38,7 +38,7 @@ func (s *MySQLWrap) insert(query string) (int64, error) {
 }
 
 func (s *MySQLWrap) update(query string) (int64, error) {
-	db := s.getDB()
+	db := s.GetDB()
 	defer db.Close()
 	res, err := db.Exec(query)
 	if err != nil {
@@ -49,7 +49,7 @@ func (s *MySQLWrap) update(query string) (int64, error) {
 }
 
 func (s *MySQLWrap) delete(query string) (int64, error) {
-	db := s.getDB()
+	db := s.GetDB()
 	defer db.Close()
 	res, err := db.Exec(query)
 	if err != nil {
@@ -59,8 +59,8 @@ func (s *MySQLWrap) delete(query string) (int64, error) {
 	return res.RowsAffected()
 }
 
-func (s *MySQLWrap) selectQuery(query string) (*sql.Rows, error) {
-	db := s.getDB()
+func (s *MySQLWrap) SelectQuery(query string) (*sql.Rows, error) {
+	db := s.GetDB()
 	return db.Query(query)
 }
 
@@ -96,9 +96,9 @@ func Delete(query string) (int64, error) {
 }
 
 func SelectQuery(query string) (*sql.Rows, error) {
-	return GetInstnace().selectQuery(query)
+	return GetInstnace().SelectQuery(query)
 }
 
 func GetDB() *sql.DB {
-	return GetInstnace().getDB()
+	return GetInstnace().GetDB()
 }

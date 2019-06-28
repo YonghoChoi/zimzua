@@ -23,7 +23,7 @@ func TestSelectQuery(t *testing.T) {
 	t.Log(query)
 
 	var name, phone, email, password, loginType, token string
-	db := GetInstnace().getDB()
+	db := GetInstnace().GetDB()
 	err := db.QueryRow(query).Scan(
 		&name,
 		&phone,
