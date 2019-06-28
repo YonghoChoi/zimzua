@@ -2,9 +2,9 @@ package auth
 
 import (
 	"fmt"
+	"github.com/YonghoChoi/zimzua/model/account"
 	"github.com/YonghoChoi/zimzua/pkg/code"
 	"github.com/YonghoChoi/zimzua/pkg/packet"
-	"github.com/YonghoChoi/zimzua/pkg/typedef"
 	"log"
 	"net/http"
 )
@@ -25,15 +25,18 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	password := r.Form.Get("password")
 	token := r.Form.Get("token")
 
-	accountInfo := new(typedef.AccountInfo)
-	if err := accountInfo.Select(email); err != nil {
+	obj, err := account.GetInstance().GetAccount(map[string]string{
+		"email": email,
+	})
+
+	if err != nil {
 		res.Code = code.ResultInternalServerError
 		res.Message = err.Error()
 		log.Println("select account fail. err : ", err.Error())
 		return
 	}
 
-	if err := accountInfo.ValidLogin(password, token); err != nil {
+	if err := obj.ValidLogin(password, token); err != nil {
 		res.Code = code.ResultInternalServerError
 		res.Message = err.Error()
 		log.Println("invalid login. err : ", err.Error())

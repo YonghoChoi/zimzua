@@ -2,10 +2,9 @@ package storage
 
 import (
 	"fmt"
+	"github.com/YonghoChoi/zimzua/model/storage"
 	"github.com/YonghoChoi/zimzua/pkg/code"
-	"github.com/YonghoChoi/zimzua/pkg/db"
 	"github.com/YonghoChoi/zimzua/pkg/packet"
-	"github.com/YonghoChoi/zimzua/pkg/typedef"
 	"log"
 	"net/http"
 	"strconv"
@@ -39,43 +38,21 @@ func GetStorageList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	query := fmt.Sprintf(`call GetStorageList(POINT(%f,%f))`, lon, lat)
-	rows, err := db.SelectQuery(query)
+	storages, err := storage.GetInstance().GetNearStorage(
+		&storage.Location{
+			Type:        "Point",
+			Coordinates: []float64{lon, lat},
+		},
+		1000,
+		12000, // 12000 = 1.2km
+	)
+
 	if err != nil {
 		res.Code = code.ResultInternalServerError
 		res.Message = "오류가 발생하였습니다."
-		log.Printf("fail query. query : %s, err : %s\n", query, err.Error())
+		log.Printf("fail get near storage. err : %s\n", err.Error())
 		return
 	}
-	defer rows.Close()
 
-	var storageList []*typedef.Storage
-	for rows.Next() {
-		var location, lon, lat string
-		storage := new(typedef.Storage)
-		err := rows.Scan(
-			&storage.Id,
-			&storage.Name,
-			&storage.Phone,
-			&storage.Address,
-			&location,
-			&lon,
-			&lat,
-			&storage.Created,
-			&storage.Updated,
-			&storage.Dist)
-		storage.Location.Lon, err = strconv.ParseFloat(lon, 64)
-		if err != nil {
-			log.Println(err)
-		}
-		storage.Location.Lat, err = strconv.ParseFloat(lat, 64)
-		if err != nil {
-			log.Println(err)
-		}
-
-		storage.Print()
-		storageList = append(storageList, storage)
-	}
-
-	res.AddData("storageList", storageList)
+	res.AddData("storageList", storages)
 }

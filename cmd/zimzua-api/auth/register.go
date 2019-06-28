@@ -2,9 +2,9 @@ package auth
 
 import (
 	"fmt"
+	"github.com/YonghoChoi/zimzua/model/account"
 	"github.com/YonghoChoi/zimzua/pkg/code"
 	"github.com/YonghoChoi/zimzua/pkg/packet"
-	"github.com/YonghoChoi/zimzua/pkg/typedef"
 	"log"
 	"net/http"
 )
@@ -31,7 +31,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	log.Println(fmt.Sprintf("Request regUser. loginType : %s, name : %s, phone : %s, email : %s, password : %s, token : %s",
 		loginType, name, phone, email, password, token))
 
-	accountInfo := new(typedef.AccountInfo)
+	accountInfo := new(account.Account)
 	accountInfo.LoginType = loginType
 	accountInfo.Name = name
 	accountInfo.Phone = phone
@@ -46,13 +46,16 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accountInfo.Insert(); err != nil {
+	id, err := account.GetInstance().InsertAccount(accountInfo)
+	if err != nil {
 		res.Code = code.ResultInternalServerError
 		res.Message = "가입에 실패하였습니다."
 		log.Println("insert fail. err : ", err.Error())
 		return
 	}
+	accountInfo.ID = id.(string)
 
 	res.Message = "가입 되었습니다."
+	res.AddData("account", accountInfo)
 	log.Println(fmt.Sprintf("registed user. %v", accountInfo))
 }
