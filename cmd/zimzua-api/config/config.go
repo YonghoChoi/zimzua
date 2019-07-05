@@ -20,8 +20,14 @@ type MongoConfig struct {
     Password string `json:"username" yaml:"password"`
 }
 
+type StorageConfig struct {
+    MinDist uint32 `json:"min_dist" yaml:"min_dist"`
+    MaxDist uint32 `json:"max_dist" yaml:"max_dist"`
+}
+
 type ZimzuaConfig struct {
-    Mongo       MongoConfig              `yaml:"mongo"`
+    Mongo   MongoConfig   `yaml:"mongo"`
+    Storage StorageConfig `yaml:"storage"`
 }
 
 var curConfig *ZimzuaConfig

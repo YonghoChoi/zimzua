@@ -1,5 +1,11 @@
 version: '3'
 services:
+  zimzua-api:
+    build: ../dockerfiles/zimzua-api
+    # image: 992189553983.dkr.ecr.ap-northeast-2.amazonaws.com/zimzua-api
+    restart: always
+    ports:
+      - 80:8000
   mongo:
     build: ../dockerfiles/mongo
     # image: 992189553983.dkr.ecr.ap-northeast-2.amazonaws.com/zimzua-mongo

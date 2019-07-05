@@ -1,6 +1,9 @@
 mongo:
   host: "localhost"
-  port: 27018
+  port: 27019
   database: "zimzua"
-  username: "root"
-  password: "root"
+  username: "zimzua"
+  password: "zimzua"
+storage:
+  min_dist: 100  # meter
+  max_dist: 500

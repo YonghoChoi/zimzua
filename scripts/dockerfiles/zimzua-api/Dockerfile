@@ -7,7 +7,7 @@ RUN sed -i -e 's/# ko_KR.UTF-8 UTF-8/ko_KR.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     echo 'export LANG=ko_KR.utf-8' >> /etc/bash.bashrc
 
-COPY ./bin/zimzua-api /opt
+COPY ./bin/zimzua-api /opt/
+COPY ./bin/config.yml /opt/
 
-WORKDIR /opt/zimzua-api
-CMD ["/opt/zimzua-api/zimzua-api"]
+CMD ["/opt/zimzua-api --config /opt/config.yml"]

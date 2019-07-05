@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"github.com/YonghoChoi/zimzua/cmd/zimzua-api/config"
 )
 
 // Sample Data : 디캠프 좌표 (lon = 127.043695, lat = 37.5084632)
@@ -43,8 +44,8 @@ func GetStorageList(w http.ResponseWriter, r *http.Request) {
 			Type:        "Point",
 			Coordinates: []float64{lon, lat},
 		},
-		1000,
-		12000, // 12000 = 1.2km
+		config.GetInstance().Storage.MinDist,
+		config.GetInstance().Storage.MaxDist, // 12000 = 1.2km
 	)
 
 	if err != nil {
