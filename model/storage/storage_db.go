@@ -5,6 +5,7 @@ import (
 	"github.com/YonghoChoi/zimzua/pkg/db"
 	"go.mongodb.org/mongo-driver/bson"
 	"sync"
+	"github.com/YonghoChoi/zimzua/cmd/zimzua-api/config"
 )
 
 // MongoDB 정의
@@ -26,7 +27,12 @@ func GetInstance() *MongoDB {
 // NewMongoDB 새로운 MongoDB 인스턴스 생성
 func NewMongoDB() *MongoDB {
 	o := new(MongoDB)
-	db, err := db.NewMongoDB(&db.Config{Host: "localhost", Port: 27018, Database: "zimzua", Username: "root", Password: "root"})
+	c := config.GetInstance().Mongo
+	db, err := db.NewMongoDB(&db.Config{Host: c.Host,
+		Port: c.Port,
+		Database: c.Database,
+		Username: c.Username,
+		Password: c.Password})
 	if err != nil {
 		panic(err)
 	}

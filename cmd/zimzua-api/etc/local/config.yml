@@ -1,0 +1,6 @@
+mongo:
+  host: "localhost"
+  port: 27018
+  database: "zimzua"
+  username: "root"
+  password: "root"

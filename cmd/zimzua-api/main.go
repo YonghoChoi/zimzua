@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"github.com/YonghoChoi/zimzua/cmd/zimzua-api/config"
 )
 
 var (
@@ -19,12 +20,21 @@ var (
 )
 
 func main() {
-	if len(os.Args) == 2 && (os.Args[1] == "-V" || os.Args[1] == "-v" || os.Args[1] == "--version") {
-		fmt.Println(version.GetVersion())
-		return
+	if len(os.Args) < 3 || !(os.Args[1] == "-c" || os.Args[1] == "--config") {
+		fmt.Println("Please input argument.")
+		fmt.Println("-c, --config : config file path")
+		fmt.Println("ex) ./zimzua-api --config ./config.yml")
+		os.Exit(1)
 	}
-	printVersion()
 
+	if c := config.GetInstance(os.Args[2]); c == nil {
+		fmt.Println("invalid config path")
+		os.Exit(1)
+	}
+
+	os.Args = os.Args[:1]
+
+	printVersion()
 	vaildRequire(initRoute())
 	startServe()
 }
