@@ -24,3 +24,13 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: zimzua
       ME_CONFIG_MONGODB_ADMINPASSWORD: zimzua
+
+  rundeck:
+    image: jordan/rundeck
+    restart: always
+    ports:
+      - "4440:4440"
+    environment:
+      - EXTERNAL_SERVER_URL=http://zimzua.yonghochoi.com:4440
+    volumes:
+      - ../../:/var/lib/rundeck/zimzua/
